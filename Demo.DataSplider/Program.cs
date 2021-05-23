@@ -24,12 +24,15 @@ namespace Demo.DataSplider
             //}
 
             //演示自定义规则
-            var two = new StepTwo();
+            //var two = new StepTwo();
             // two.RunArticleRule();
             //two.RunArticleDetail();
             //two.RunWeather15Days();
-            two.RunWeather7Days();
+            //two.RunWeather7Days();
 
+            SearchApps searchApps = new SearchApps();
+            //searchApps.WandoujiaEntry();
+            //searchApps.WandoujiaAppDetailUnitTest(); 
             Console.ReadKey();
 
 

@@ -113,8 +113,7 @@ namespace Demo.DataSplider
         /// 天气预报 - 7 days
         /// </summary>
         public void RunWeather7Days()
-        {
-
+        { 
             var rule = new SpliderRule()
             {
                 //ContentXPath = "//div[@id='7d']",

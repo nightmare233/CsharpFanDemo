@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using Demo.DataSplider.DemoPick;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,41 +7,47 @@ using System.Text.RegularExpressions;
 
 namespace Demo.DataSplider.Models
 {
-    /// <summary>
-    /// 支持列表和详情页
-    /// </summary>
-    public class ArticleSplider : IDataSplider
+    public class AppsSplider
     {
         /// <summary>
         /// 根据Rule
         /// </summary>
         /// <param name="rule"></param>
         /// <returns></returns>
-        public List<SpliderContent> GetByRule(SpliderRule rule)
+        public List<SpliderContent> GetByRule(SpliderRule rule, string content)
         {
-            var url = @"https://www.wandoujia.com/wdjweb/api/category/more?catId=5017&subCatId=593&page=2";//rule.Url;
-            HtmlWeb web = new HtmlWeb();
-            //1.支持从web或本地path加载html
-            var htmlDoc = web.Load(url);
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(content); 
+
             var contentnode = htmlDoc.DocumentNode.SelectSingleNode(rule.ContentXPath);
 
             var list = new List<SpliderContent>();
-            //列表页
+        
             if (!string.IsNullOrWhiteSpace(rule.EachXPath))
             {
                 var itemsNodes = contentnode.SelectNodes(rule.EachXPath);
                 foreach (var item in itemsNodes)
                 {
                     var fields = GetFields(item, rule);
-               
+
                     list.Add(new SpliderContent()
                     {
                         Fields = fields,
                         SpliderRuleId = rule.Id
                     });
-                }
-                return list;
+                } 
             }
+            return list;
+        }
+
+        public List<SpliderContent> GetByRule(SpliderRule rule)
+        { 
+            HtmlWeb web = new HtmlWeb();
+            //1.支持从web加载html
+            var htmlDoc = web.Load(rule.Url);
+            var contentnode = htmlDoc.DocumentNode.SelectSingleNode(rule.ContentXPath);
+
+            var list = new List<SpliderContent>();
             //详情页
             var cfields = GetFields(contentnode, rule);
             var sc = new SpliderContent()
@@ -52,10 +59,34 @@ namespace Demo.DataSplider.Models
             return list;
         }
 
+        public List<SpliderContent> GetByRuleFromFile(SpliderRule rule, string filename)
+        {
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.Load(filename);
+            var contentnode = htmlDoc.DocumentNode.SelectSingleNode(rule.ContentXPath);
+
+            var list = new List<SpliderContent>();
+            //详情页
+            var cfields = GetFields(contentnode, rule);
+            var sc = new SpliderContent()
+            {
+                Fields = cfields,
+                SpliderRuleId = rule.Id
+            };
+            list.Add(sc);
+            return list;
+        }
+
+
         public List<Field> GetFields(HtmlNode item, SpliderRule rule)
         {
-            var fields = new List<Field>();
-
+            List<Field> fields = new List<Field>();
+            if (item == null)
+            {
+                Console.WriteLine("item is null...");
+                return fields; 
+            }
+           
             foreach (var rulefield in rule.RuleFields)
             {
                 var field = new Field() { DisplayName = rulefield.DisplayName, FieldName = "" };
@@ -68,9 +99,7 @@ namespace Demo.DataSplider.Models
                     field.InnerText = fieldnode.InnerText;
                     field.AfterRegexHtml = !string.IsNullOrWhiteSpace(rulefield.InnerHtmlRegex) ? Regex.Replace(fieldnode.InnerHtml, rulefield.InnerHtmlRegex, "") : fieldnode.InnerHtml;
                     field.AfterRegexText = !string.IsNullOrWhiteSpace(rulefield.InnerTextRegex) ? Regex.Replace(fieldnode.InnerText, rulefield.InnerTextRegex, "") : fieldnode.InnerText;
-
-                    //field.AfterRegexHtml = Regex.Replace(fieldnode.InnerHtml, rulefield.InnerHtmlRegex, "");
-                    //field.AfterRegexText = Regex.Replace(fieldnode.InnerText, rulefield.InnerTextRegex, "");
+                     
                     if (!string.IsNullOrWhiteSpace(rulefield.Attribute))
                     {
                         field.Value = fieldnode.Attributes[rulefield.Attribute].Value;
@@ -79,7 +108,7 @@ namespace Demo.DataSplider.Models
                     {
                         field.Value = rulefield.IsFirstInnerText ? field.AfterRegexText : field.AfterRegexHtml;
                     }
-                    }
+                }
                 fields.Add(field);
             }
             return fields;
