@@ -27,8 +27,8 @@ namespace Demo.DataSplider
             var two = new StepTwo();
             // two.RunArticleRule();
             //two.RunArticleDetail();
-            two.RunWeather();
-
+            //two.RunWeather15Days();
+            two.RunWeather7Days();
 
             Console.ReadKey();
 

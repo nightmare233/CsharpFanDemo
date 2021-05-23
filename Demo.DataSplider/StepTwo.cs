@@ -79,9 +79,9 @@ namespace Demo.DataSplider
         }
 
         /// <summary>
-        /// 天气预报
+        /// 天气预报 - 15 days
         /// </summary>
-        public void RunWeather() {
+        public void RunWeather15Days() {
 
             var rule = new SpliderRule()
             {
@@ -104,6 +104,40 @@ namespace Demo.DataSplider
                 item.Fields.ForEach(M =>
                 {
                         msg += $"{M.DisplayName}:{M.Value} ";
+                });
+                Console.WriteLine(msg);
+            } 
+        }
+
+        /// <summary>
+        /// 天气预报 - 7 days
+        /// </summary>
+        public void RunWeather7Days()
+        {
+
+            var rule = new SpliderRule()
+            {
+                //ContentXPath = "//div[@id='7d']",
+                ContentXPath = "//ul[@class='t clearfix']",
+                EachXPath = "li[@class]",
+                Url = "http://www.weather.com.cn/weather/101250101.shtml", //长沙7天天气
+                RuleFields = new List<RuleField>() {
+                         new RuleField(){ DisplayName="日期",XPath="h1", IsFirstInnerText=true },
+                         new RuleField(){ DisplayName="天气",XPath="p[@class='wea']",Attribute="", IsFirstInnerText=true },
+                         new RuleField(){ DisplayName="高",XPath="p[@class='tem']/span",Attribute="", IsFirstInnerText=true },
+                         new RuleField(){ DisplayName="低",XPath="p[@class='tem']/i",Attribute="", IsFirstInnerText=true },
+                         //new RuleField(){ DisplayName="风向",XPath="p[@class='win']",Attribute="", IsFirstInnerText=false },
+                         //new RuleField(){ DisplayName="风力",XPath="p[@class='win']",Attribute="", IsFirstInnerText=false },
+                           }
+            };
+            var splider = new ArticleSplider();
+            var list = splider.GetByRule(rule);
+            foreach (var item in list)
+            {
+                var msg = string.Empty;
+                item.Fields.ForEach(M =>
+                {
+                    msg += $"{M.DisplayName}:{M.Value} ";
                 });
                 Console.WriteLine(msg);
             }

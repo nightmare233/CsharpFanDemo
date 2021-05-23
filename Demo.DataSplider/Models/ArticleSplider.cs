@@ -32,6 +32,7 @@ namespace Demo.DataSplider.Models
                 foreach (var item in itemsNodes)
                 {
                     var fields = GetFields(item, rule);
+               
                     list.Add(new SpliderContent()
                     {
                         Fields = fields,
