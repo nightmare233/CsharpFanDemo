@@ -20,7 +20,7 @@ namespace Demo.DataSplider
             //httpget json data
             string content = GetJsonDataByAPI(url);
             //xml parse app list.
-            AppList appList = WandoujiaAppList(content);
+            List<AppInfo> appList = WandoujiaAppList(content);
             //get app detail info.
             GetAppDetailInfo(appList);
         }
@@ -38,7 +38,7 @@ namespace Demo.DataSplider
         }
 
         
-        public AppList WandoujiaAppList(string content)
+        public List<AppInfo> WandoujiaAppList(string content)
         { 
             var rule = new SpliderRule()
             { 
@@ -57,9 +57,8 @@ namespace Demo.DataSplider
             var splider = new AppsSplider();
             List<SpliderContent> list = splider.GetByRule(rule, content);
             //打印出来
-            AppList appList = new AppList();
-            appList.ListURL = "";
-            appList.UpdateTime = DateTime.Now; 
+            List<AppInfo> appList = new List<AppInfo>();
+            //AppList appList = new AppList();  
             foreach (var item in list)
             { 
                 AppInfo appInfo = new AppInfo();
@@ -81,7 +80,7 @@ namespace Demo.DataSplider
                         default:
                             break;
                     }
-                    appList.AppInfos.Add(appInfo);
+                    appList.Add(appInfo);
                     msg += $"{M.DisplayName}:{M.Value}     ";
                 });
                 Console.WriteLine(msg);
@@ -89,14 +88,14 @@ namespace Demo.DataSplider
             return appList;
         }
 
-        public void GetAppDetailInfo(AppList appList)
+        public void GetAppDetailInfo(List<AppInfo> appList)
         {
-            if (appList == null || appList.AppInfos.Count == 0)
+            if (appList == null || appList.Count == 0)
             {
                 return;
             }
 
-            foreach (AppInfo item in appList.AppInfos)
+            foreach (AppInfo item in appList)
             {
                 WandoujiaAppDetail(item);
             } 

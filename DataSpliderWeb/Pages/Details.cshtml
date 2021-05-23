@@ -1,0 +1,37 @@
+﻿@page
+@model DataSpliderWeb.Pages.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>City</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.city)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.city)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.country_id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.country_id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.last_update)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.last_update)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.City.city_id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

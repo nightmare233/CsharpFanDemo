@@ -1,26 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using DataSpliderWeb;
+using DataSpliderWeb.Entity;
 
 namespace DataSpliderWeb.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly MySqlContext _db;
-        public IndexModel(ILogger<IndexModel> logger, MySqlContext dBContext)
+        private readonly DataSpliderWeb.MySqlContext _context;
+
+        public IndexModel(DataSpliderWeb.MySqlContext context)
         {
-            _logger = logger;
-            _db = dBContext;
+            _context = context;
         }
 
-        public void OnGet()
+        public IList<City> City { get;set; }
+
+        public async Task OnGetAsync()
         {
-            var list = _db.city.ToList();
+            City = await _context.city.ToListAsync();
         }
     }
 }

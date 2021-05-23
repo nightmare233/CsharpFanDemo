@@ -1,0 +1,40 @@
+﻿@page
+@model DataSpliderWeb.Pages.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>City</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.city)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.city)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.country_id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.country_id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.last_update)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.last_update)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="City.city_id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
