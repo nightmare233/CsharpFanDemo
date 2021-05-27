@@ -14,20 +14,16 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="City.city" class="control-label"></label>
-                <input asp-for="City.city" class="form-control" />
-                <span asp-validation-for="City.city" class="text-danger"></span>
+                <label asp-for="City.name" class="control-label"></label>
+                <input asp-for="City.name" class="form-control" />
+                <span asp-validation-for="City.name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City.country_id" class="control-label"></label>
-                <input asp-for="City.country_id" class="form-control" />
-                <span asp-validation-for="City.country_id" class="text-danger"></span>
+                <label asp-for="City.province_id" class="control-label"></label>
+                <input asp-for="City.province_id" class="form-control" />
+                <span asp-validation-for="City.province_id" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="City.last_update" class="control-label"></label>
-                <input asp-for="City.last_update" class="form-control" />
-                <span asp-validation-for="City.last_update" class="text-danger"></span>
-            </div>
+             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -30,7 +30,7 @@ namespace DataSpliderWeb.Pages
                 return NotFound();
             }
 
-            City = await _context.city.FirstOrDefaultAsync(m => m.city_id == id);
+            City = await _context.city.FirstOrDefaultAsync(m => m.id == id);
 
             if (City == null)
             {
@@ -56,7 +56,7 @@ namespace DataSpliderWeb.Pages
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CityExists(City.city_id))
+                if (!CityExists(City.id))
                 {
                     return NotFound();
                 }
@@ -71,7 +71,7 @@ namespace DataSpliderWeb.Pages
 
         private bool CityExists(int id)
         {
-            return _context.city.Any(e => e.city_id == id);
+            return _context.city.Any(e => e.id == id);
         }
     }
 }

@@ -13,5 +13,8 @@ namespace DataSpliderWeb
         } 
 
         public DbSet<Entity.City> city { get; set; }
+        public DbSet<Entity.Province> province { get; set; }
+        public DbSet<Entity.AppInfo> appinfo { get; set; }
+        public DbSet<Entity.AppListURL> applisturl { get; set; }
     }
 }

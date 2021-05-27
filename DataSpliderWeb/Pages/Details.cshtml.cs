@@ -28,7 +28,7 @@ namespace DataSpliderWeb.Pages
                 return NotFound();
             }
 
-            City = await _context.city.FirstOrDefaultAsync(m => m.city_id == id);
+            City = await _context.city.FirstOrDefaultAsync(m => m.id == id);
 
             if (City == null)
             {
